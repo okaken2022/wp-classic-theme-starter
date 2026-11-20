@@ -1,0 +1,29 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "scss/selector-no-union-class-name": [
+      true,
+      { "message": "BEM の __element / --modifier を & で連結しないでください。.block__element--modifier とフラットに書きます。" }
+    ],
+    "selector-class-pattern": [
+      "^(?:(?:l|u|is)-[a-z][a-zA-Z0-9-]*|fade-in-(?:up|down|left|right)|crop-from-(?:left|right|top|bottom|#\\{\\$[a-z-]+\\})|splide(?:__[a-z]+)*(?:--[a-z]+)?|[a-z][a-zA-Z0-9]*)(?:__[a-z][a-zA-Z0-9]*)?(?:--[a-z][a-zA-Z0-9]*)?$",
+      {
+        "message": "クラス名は BEM（.block__element--modifier、キャメルケース）か .l- / .u- / .is- にしてください。",
+        "resolveNestedSelectors": true
+      }
+    ],
+    "scss/dollar-variable-pattern": "^[a-z][a-z0-9-]*$",
+    "scss/at-mixin-pattern": "^[a-z][a-z0-9-]*$",
+    "scss/at-function-pattern": "^[a-z][a-z0-9-]*$",
+    "scss/percent-placeholder-pattern": null,
+    "declaration-no-important": null,
+    "no-descending-specificity": null,
+    "selector-id-pattern": null,
+    "keyframes-name-pattern": null,
+    "color-hex-length": "short",
+    "declaration-property-value-no-unknown": null,
+    "scss/no-global-function-names": true,
+    "scss/at-extend-no-missing-placeholder": true,
+    "max-nesting-depth": [3, { "ignore": ["pseudo-classes"], "ignoreAtRules": ["include", "media"] }]
+  }
+}

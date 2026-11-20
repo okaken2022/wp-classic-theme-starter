@@ -1,0 +1,72 @@
+@use "sass:map";
+@use "variables" as *;
+
+// min-width メディアクエリ（基本はこちら。SP ファースト）
+// @include mq(md) { ... }
+@mixin mq($key) {
+  @if not map.has-key($breakpoints, $key) {
+    @error "ブレークポイント `#{$key}` は $breakpoints に定義されていません。";
+  }
+
+  @media screen and (min-width: map.get($breakpoints, $key)) {
+    @content;
+  }
+}
+
+// max-width メディアクエリ（SP だけ上書きしたい例外用）
+// @include mq-down(md) { ... } // 767.98px 以下
+@mixin mq-down($key) {
+  @if not map.has-key($breakpoints, $key) {
+    @error "ブレークポイント `#{$key}` は $breakpoints に定義されていません。";
+  }
+
+  @media screen and (max-width: (map.get($breakpoints, $key) - 0.02px)) {
+    @content;
+  }
+}
+
+// ホバー可能なデバイスでのみ hover を当てる
+@mixin hover {
+  @media (any-hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin hover-opacity($opacity: 0.7) {
+  transition: opacity $duration-base $easing-base;
+
+  @include hover {
+    opacity: $opacity;
+  }
+}
+
+// 行間
+// @include line-height(tight);
+@mixin line-height($type) {
+  @if $type == narrow {
+    line-height: $line-height-narrow;
+  } @else if $type == tight {
+    line-height: $line-height-tight;
+  } @else if $type == base {
+    line-height: $line-height-base;
+  } @else if $type == relaxed {
+    line-height: $line-height-relaxed;
+  } @else {
+    @error "line-height の種類 `#{$type}` は未定義です（narrow / tight / base / relaxed）。";
+  }
+}
+
+// 視覚的に隠してスクリーンリーダーには読ませる
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

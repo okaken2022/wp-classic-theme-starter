@@ -1,0 +1,35 @@
+@use "../abstracts" as *;
+
+// 管理画面の本文（the_content）用
+.entryContent {
+  > * + * {
+    margin-top: 1.5em;
+  }
+
+  h2 {
+    padding-bottom: 8px;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    border-bottom: 2px solid $color-primary;
+  }
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+  }
+
+  a {
+    color: $color-accent;
+    text-decoration: underline;
+  }
+
+  ul {
+    padding-left: 1.5em;
+    list-style: disc;
+  }
+
+  ol {
+    padding-left: 1.5em;
+    list-style: decimal;
+  }
+}

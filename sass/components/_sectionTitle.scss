@@ -1,0 +1,28 @@
+@use "../abstracts" as *;
+
+// template-parts/section-title.php
+.sectionTitle {
+  margin-bottom: 32px;
+
+  @include mq(md) {
+    margin-bottom: 48px;
+  }
+}
+
+.sectionTitle__en {
+  font-family: $font-family-accent;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-narrow;
+  color: $color-primary;
+
+  @include mq(md) {
+    font-size: $font-size-xxxl;
+  }
+}
+
+.sectionTitle__ja {
+  margin-top: 8px;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}

@@ -1,0 +1,32 @@
+@use "../abstracts" as *;
+
+.button {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+  padding: 14px 32px;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  color: $color-white;
+  background-color: $color-primary;
+  border: 1px solid $color-primary;
+  border-radius: 999px;
+  transition: background-color $duration-base $easing-base, color $duration-base $easing-base;
+
+  @include hover {
+    opacity: 1;
+    background-color: $color-primary-hover;
+  }
+}
+
+.button--outline {
+  color: $color-primary;
+  background-color: transparent;
+
+  @include hover {
+    color: $color-white;
+    background-color: $color-primary;
+  }
+}

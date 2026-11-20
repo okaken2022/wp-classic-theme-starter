@@ -1,0 +1,28 @@
+@use "../abstracts" as *;
+
+// 投稿一覧（index.php）
+.postList {
+  border-top: 1px solid $color-border;
+}
+
+.postList__item {
+  border-bottom: 1px solid $color-border;
+}
+
+.postList__link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 0;
+
+  @include mq(md) {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+.postList__date {
+  flex-shrink: 0;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}

@@ -1,0 +1,33 @@
+@use "../abstracts" as *;
+
+// footer.php の「ページ先頭へ」ボタン（js: initPageTop）
+.pageTop {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: z(page-top);
+  width: 48px;
+  height: 48px;
+  visibility: hidden;
+  background-color: $color-primary;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity $duration-base $easing-base, visibility $duration-base $easing-base;
+
+  &::before {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    content: "";
+    border-top: 2px solid $color-white;
+    border-left: 2px solid $color-white;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+.pageTop.is-visible {
+  visibility: visible;
+  opacity: 1;
+}

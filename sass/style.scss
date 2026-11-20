@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+// エントリーポイント → css/style.css（npm run build）
+// 新しいパーシャルを作ったら、該当グループの末尾に @use を 1 行足す。
+
+// Base
+@use "base/reset";
+@use "base/base";
+
+// Layout
+@use "layout/wrapper";
+@use "layout/header";
+@use "layout/footer";
+
+// Components
+@use "components/button";
+@use "components/fadein";
+@use "components/pageHead";
+@use "components/pageNav";
+@use "components/pageTop";
+@use "components/sectionTitle";
+@use "components/entryContent";
+@use "components/postList";
+@use "components/splide";
+
+// Pages
+@use "pages/top";
+
+// Utility（最後に読み込む）
+@use "utility/lineBreak";
+@use "utility/spacing";
+@use "utility/visibility";

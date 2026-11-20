@@ -1,0 +1,34 @@
+@use "../abstracts" as *;
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: $header-height-sp;
+
+  @include mq(lg) {
+    scroll-padding-top: $header-height-pc;
+  }
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-sm;
+  line-height: $line-height-base;
+  color: $color-text;
+  letter-spacing: $letter-spacing-base;
+  background-color: $color-bg;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.is-navOpen {
+  overflow: hidden;
+}
+
+a {
+  @include hover-opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

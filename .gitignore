@@ -1,0 +1,25 @@
+# Build output（CI でビルドしてデプロイする）
+/css/
+
+# Dependencies
+node_modules/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Secrets
+.env
+.env.*
+
+# Claude Code の個人設定
+.claude/settings.local.json
+
+# FTP-Deploy-Action の同期状態（サーバー側に置かれる）
+.ftp-deploy-sync-state.json
+
+# 仕様書・カンプなど公開しない資料はここに置く
+/_private/

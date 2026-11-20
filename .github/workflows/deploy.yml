@@ -1,0 +1,117 @@
+# main への push → Staging に自動デプロイ
+# Actions 画面の「Run workflow」で production を選ぶ → Production に手動デプロイ
+#
+# 必要な Secrets（Settings > Secrets and variables > Actions）:
+#   FTP_SERVER_STAGING / FTP_USERNAME_STAGING / FTP_PASSWORD_STAGING / FTP_SERVER_DIR_STAGING
+#   FTP_SERVER_PRODUCTION / FTP_USERNAME_PRODUCTION / FTP_PASSWORD_PRODUCTION / FTP_SERVER_DIR_PRODUCTION
+#   ※ *_SERVER_DIR_* はテーマフォルダのパス（例: /example.com/public_html/wp-content/themes/my_theme/）
+#
+# 本番の誤デプロイ防止: Settings > Environments > production > Required reviewers を設定する
+
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Deploy target
+        required: true
+        type: choice
+        default: staging
+        options:
+          - staging
+          - production
+
+concurrency:
+  group: deploy-${{ github.event_name == 'workflow_dispatch' && inputs.target || 'staging' }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: none
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme
+          path: |
+            .
+            !node_modules
+            !.git
+          include-hidden-files: false
+          retention-days: 3
+
+  deploy:
+    name: Deploy to ${{ github.event_name == 'workflow_dispatch' && inputs.target || 'staging' }}
+    needs: build
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.target || 'staging' }}
+    env:
+      TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.target || 'staging' }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: theme
+          path: theme
+
+      # Secrets を対象環境ごとに切り替え、server-dir の末尾 / を補う
+      - name: Resolve FTP settings
+        id: ftp
+        env:
+          DIR_STAGING: ${{ secrets.FTP_SERVER_DIR_STAGING }}
+          DIR_PRODUCTION: ${{ secrets.FTP_SERVER_DIR_PRODUCTION }}
+        run: |
+          if [ "$TARGET" = "production" ]; then DIR="$DIR_PRODUCTION"; else DIR="$DIR_STAGING"; fi
+          if [ -z "$DIR" ]; then echo "FTP_SERVER_DIR_* が未設定です" >&2; exit 1; fi
+          echo "server_dir=${DIR%/}/" >> "$GITHUB_OUTPUT"
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ env.TARGET == 'production' && secrets.FTP_SERVER_PRODUCTION || secrets.FTP_SERVER_STAGING }}
+          username: ${{ env.TARGET == 'production' && secrets.FTP_USERNAME_PRODUCTION || secrets.FTP_USERNAME_STAGING }}
+          password: ${{ env.TARGET == 'production' && secrets.FTP_PASSWORD_PRODUCTION || secrets.FTP_PASSWORD_STAGING }}
+          server-dir: ${{ steps.ftp.outputs.server_dir }}
+          local-dir: ./theme/
+          # 公開サーバーに置かないもの（exclude を指定するとデフォルト除外が消えるので .git 等も明記）
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.claude/**
+            **/.github/**
+            **/.vscode/**
+            **/docs/**
+            **/scripts/**
+            **/sass/**
+            **/_private/**
+            **/*.md
+            **/*.pdf
+            **/*.map
+            **/.DS_Store
+            **/.editorconfig
+            **/.nvmrc
+            **/.stylelintrc.json
+            **/package.json
+            **/package-lock.json

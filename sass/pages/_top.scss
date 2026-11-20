@@ -1,0 +1,55 @@
+@use "../abstracts" as *;
+
+// front-page.php
+.topKv {
+  display: flex;
+  align-items: center;
+  min-height: 60vh;
+  padding-top: $header-height-sp;
+  background-color: $color-bg-subtle;
+
+  @include mq(lg) {
+    min-height: 80vh;
+    padding-top: $header-height-pc;
+  }
+}
+
+.topKv__copy {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+
+  @include mq(md) {
+    font-size: $font-size-xxxl;
+  }
+}
+
+.topNews__list {
+  border-top: 1px solid $color-border;
+}
+
+.topNews__item {
+  border-bottom: 1px solid $color-border;
+}
+
+.topNews__link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 0;
+
+  @include mq(md) {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+.topNews__date {
+  flex-shrink: 0;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.topNews__empty {
+  color: $color-text-muted;
+}

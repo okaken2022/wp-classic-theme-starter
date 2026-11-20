@@ -1,0 +1,19 @@
+@use "../abstracts" as *;
+
+.u-visuallyHidden {
+  @include visually-hidden;
+}
+
+// md 未満でのみ表示
+.u-spOnly {
+  @include mq(md) {
+    display: none !important;
+  }
+}
+
+// md 以上でのみ表示
+.u-pcOnly {
+  @include mq-down(md) {
+    display: none !important;
+  }
+}

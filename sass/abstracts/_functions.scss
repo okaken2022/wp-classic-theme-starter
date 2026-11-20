@@ -1,0 +1,25 @@
+@use "sass:map";
+@use "sass:math";
+@use "variables" as *;
+
+// px → rem
+// font-size: rem(18); // 1.125rem
+@function rem($px, $base: 16) {
+  @return math.div($px, $base) * 1rem;
+}
+
+// デザインカンプ幅に対する vw
+// padding: to-vw(60, 1440);
+@function to-vw($px, $base) {
+  @return math.div($px, $base) * 100vw;
+}
+
+// z-index マップから取得
+// z-index: z(header);
+@function z($key) {
+  @if not map.has-key($z-index, $key) {
+    @error "z-index のキー `#{$key}` は $z-index に定義されていません。";
+  }
+
+  @return map.get($z-index, $key);
+}

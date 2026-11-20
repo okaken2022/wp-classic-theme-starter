@@ -1,0 +1,6 @@
+@use "../abstracts" as *;
+
+// Splide の見た目調整。スライダー種別は .splide--{name} で分ける（js の getSplideOptions と対応）
+.splide__pagination__page.is-active {
+  background-color: $color-primary;
+}

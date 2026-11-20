@@ -1,0 +1,74 @@
+// =====================================================================
+// デザイントークン
+// - 色は「用途名」で定義する（$color-blue2 のような見た目名・連番は作らない）
+// - 新しい値が必要なら、まずここに用途名で追加してから使う
+// - パーシャルで #xxx や px のフォントサイズを直書きしない
+// =====================================================================
+
+// Colors
+$color-text: #191919;
+$color-text-muted: #6b6b6b;
+$color-bg: #fff;
+$color-bg-subtle: #f5f6f8;
+$color-border: #d0d0d0;
+$color-primary: #1b2951;
+$color-primary-hover: #141f3e;
+$color-accent: #1facdd;
+$color-error: #e83820;
+$color-white: #fff;
+
+// Typography
+$font-family-base: "Noto Sans JP", sans-serif;
+$font-family-accent: "Noto Sans JP", sans-serif;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Font sizes（rem。コメントは 16px 換算）
+$font-size-xxs: 0.75rem; // 12px
+$font-size-xs: 0.875rem; // 14px
+$font-size-sm: 1rem; // 16px
+$font-size-md: 1.125rem; // 18px
+$font-size-lg: 1.25rem; // 20px
+$font-size-xl: 1.5rem; // 24px
+$font-size-xxl: 2rem; // 32px
+$font-size-xxxl: 2.5rem; // 40px
+
+// Line heights
+$line-height-narrow: 1;
+$line-height-tight: 1.5;
+$line-height-base: 1.75;
+$line-height-relaxed: 2;
+
+// Letter spacing
+$letter-spacing-tight: -0.03em;
+$letter-spacing-base: 0.08em;
+
+// Layout
+$container-width: 1200px;
+$gutter-sp: 20px;
+$gutter-pc: 40px;
+$header-height-sp: 60px;
+$header-height-pc: 80px;
+
+// Motion
+$duration-base: 0.3s;
+$easing-base: ease;
+
+// z-index（ここ以外で z-index に数値を直書きしない）
+$z-index: (
+  "page-top": 50,
+  "header": 100,
+  "nav": 110,
+  "toggle": 120,
+);
+
+// Breakpoints（mq() は min-width。SP ファーストで書く）
+$breakpoints: (
+  "xs": 530px,
+  "sm": 670px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1180px,
+  "xxl": 1280px,
+);

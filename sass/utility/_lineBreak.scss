@@ -1,0 +1,20 @@
+@use "../abstracts" as *;
+
+// SP / PC で改行位置だけ変える
+// <br class="u-br-sp"> … md 未満でのみ改行
+// <br class="u-br-pc"> … md 以上でのみ改行
+.u-br-sp {
+  display: inline;
+
+  @include mq(md) {
+    display: none;
+  }
+}
+
+.u-br-pc {
+  display: none;
+
+  @include mq(md) {
+    display: inline;
+  }
+}

@@ -1,0 +1,29 @@
+@use "../abstracts" as *;
+
+// template-parts/page-head.php
+.pageHead {
+  padding-top: $header-height-sp + 40px;
+  padding-bottom: 40px;
+  background-color: $color-bg-subtle;
+
+  @include mq(lg) {
+    padding-top: $header-height-pc + 64px;
+    padding-bottom: 64px;
+  }
+}
+
+.pageHead__en {
+  font-family: $font-family-accent;
+  font-size: $font-size-xs;
+  color: $color-accent;
+}
+
+.pageHead__title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+
+  @include mq(md) {
+    font-size: $font-size-xxl;
+  }
+}

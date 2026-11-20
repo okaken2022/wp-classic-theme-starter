@@ -1,0 +1,32 @@
+@use "../abstracts" as *;
+
+// 横幅コンテナ
+.l-wrapper {
+  width: 100%;
+  max-width: $container-width + $gutter-pc * 2;
+  padding-right: $gutter-sp;
+  padding-left: $gutter-sp;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include mq(md) {
+    padding-right: $gutter-pc;
+    padding-left: $gutter-pc;
+  }
+}
+
+// 狭いコンテナ（本文・フォームなど）
+.l-wrapper--narrow {
+  max-width: 880px;
+}
+
+// セクションの縦余白
+.l-section {
+  padding-top: 48px;
+  padding-bottom: 48px;
+
+  @include mq(md) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}

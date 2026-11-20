@@ -1,0 +1,73 @@
+@use "sass:map";
+@use "../abstracts" as *;
+
+// ---------------------------------------------------------------------
+// fade-in-{up|down|left|right}
+// 動きは js/main.js の initScrollAnimations() が GSAP で付ける。
+// JS が動かない環境でも表示されるよう、CSS では opacity: 0 にしない。
+// ---------------------------------------------------------------------
+.fade-in-up,
+.fade-in-down,
+.fade-in-left,
+.fade-in-right {
+  will-change: opacity, transform;
+}
+
+// ---------------------------------------------------------------------
+// crop-from-{left|right|top|bottom}
+// 幕が開いて画像が現れる。js の initCropAnimations() が .is-visible を付与する。
+// 幕の色を変えるときは --crop-color を上書きする:
+//   <div class="crop-from-left" style="--crop-color: #eaf6fd">
+// ---------------------------------------------------------------------
+$crop-directions: (
+  "left": translateX(100%),
+  "right": translateX(-100%),
+  "top": translateY(100%),
+  "bottom": translateY(-100%),
+);
+$crop-easing: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+@each $direction, $transform in $crop-directions {
+  .crop-from-#{$direction} {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      content: "";
+      background-color: var(--crop-color, #{$color-bg});
+      transition: transform 1.5s $crop-easing 0.5s;
+    }
+
+    img {
+      opacity: 0;
+      transform: scale(1.3);
+      transition:
+        transform 1.8s $crop-easing 1s,
+        opacity 1.2s cubic-bezier(0.473, 0.427, 0, 0.993) 0.8s;
+    }
+
+    &.is-visible::after {
+      transform: $transform;
+    }
+
+    &.is-visible img {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="crop-from-"]::after {
+    display: none;
+  }
+
+  [class*="crop-from-"] img {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
